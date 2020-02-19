@@ -10,7 +10,6 @@ if [ $# -eq 1 ]
     echo "Specify the host"
 fi
 
-REVISION=$(git rev-parse --short $1)
 REPO=$(git config --get remote.origin.url)
 IMG_NAME="hut6/$(basename -s .git $REPO):$1"
 

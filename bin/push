@@ -5,7 +5,6 @@ if [ $# -eq 0 ]
     echo "Specify a branch name, a tag, or a commit hash"
 fi
 
-REVISION=$(git rev-parse --short $1)
 REPO=$(git config --get remote.origin.url)
 IMG_NAME="hut6/$(basename -s .git $REPO):$1"
 
