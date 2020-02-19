@@ -1,0 +1,29 @@
+{
+  "name": "hut6/docker-cli-utils",
+  "license": "proprietary",
+  "description": "HutSix Docker Utilities",
+  "type": "library",
+  "authors": [
+    {
+      "name": "HutSix",
+      "email": "team@hutsix.com.au"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "symfony/console": ">4",
+    "symfony/yaml": ">4",
+    "symfony/process": ">4",
+    "ext-json": "*",
+    "symfony/dotenv": "^5.0"
+  },
+  "bin": [
+    "bin/secrets",
+    "bin/build",
+    "bin/push",
+    "bin/deploy"
+  ],
+  "require-dev": {
+    "symfony/var-dumper": ">4"
+  }
+}

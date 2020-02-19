@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+  then
+    echo "Specify a branch name, a tag, or a commit hash"
+fi
+
+REVISION=$(git rev-parse --short $1)
+
+REPO=$(git config --get remote.origin.url)
+
+IMG_NAME="hut6/$(basename -s .git $REPO):$1"
+
+SSH_KEY=$(cat ~/.ssh/id_rsa);
+
+docker build -t $IMG_NAME -f deploy/Dockerfile --build-arg REVISION=$REVISION --build-arg SSH_KEY="$SSH_KEY" .
+
+./bin/push $1
