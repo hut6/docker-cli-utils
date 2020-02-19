@@ -12,7 +12,7 @@ composer req --dev deployer/dist
 
 You will need to create a /hosts.yml inventory file (as per Deployer https://deployer.org/docs/hosts.html) and list all the hosts used for deployments.
 
-A VERSION file is also required. Version increments can be managed with the tag release script
+A VERSION file is also required. Version increments can be managed with the `tag-release` script. 
 
 You will also need a custom recipe, Dockerbuild file, and at least one Docker Compose file for each project. Example files are available at https://github.com/hut6/2020-docker-prod-boilerplate
 
@@ -28,9 +28,9 @@ bin/build 2ba2014b133ad9feda8fc0c5843dd8dcbf2a8c00 # long hash
 
 The image name will be determined using the git remote; if the remote is `git@github.com:hut6/docker-cli-utils.git` then the docker image will be called `hut6/docker-cli-utils`.
 
-The command argument will be used as the tag for the Docker image. If building `bin/build branch_name`, then it will be tagged like this `hut6/docker-cli-utils:branch_name`  
+The command argument determines which commit is checked out, it can be a branch name, a tag, or a hash. 
 
-Another example would be `bin/build 1.0.0` => `hut6/docker-cli-utils:1.0.0`.
+The argument will also be used as the tag for the Docker image. If building `bin/build branch_name`, then it will be tagged like this `hut6/docker-cli-utils:branch_name`. Another example would be `bin/build 1.0.0` => `hut6/docker-cli-utils:1.0.0`.
 
 When building the image, the local files are not used, the remote is used; changes need to be pushed to the remote before the image can be built. 
 
