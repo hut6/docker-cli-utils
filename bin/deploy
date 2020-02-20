@@ -1,16 +1,22 @@
 #!/bin/bash
 
+set -e
+
 if [ $# -eq 0 ]
   then
     echo "Specify a branch name, a tag, or a commit hash"
+    exit 1
 fi
 
 if [ $# -eq 1 ]
   then
     echo "Specify the host"
+    exit 1
 fi
 
 REPO=$(git config --get remote.origin.url)
 IMG_NAME="hut6/$(basename -s .git $REPO):$1"
+
+echo $IMG_NAME;
 
 php bin/dep deploy $2 --ansi --revision=$IMG_NAME
