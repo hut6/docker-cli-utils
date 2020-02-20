@@ -1,4 +1,4 @@
 /vendor
 /secrets
-/hosts.yml
+/deploy/hosts.yml
 /VERSION
