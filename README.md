@@ -10,11 +10,11 @@ composer req --dev hut6/tag-release
 composer req --dev deployer/dist
 ```
 
-You will need to create a /hosts.yml inventory file (as per Deployer https://deployer.org/docs/hosts.html) and list all the hosts used for deployments.
+You will need to create a `/hosts.yml` inventory file (as per Deployer https://deployer.org/docs/hosts.html) and list all the hosts used for deployments.
 
-A VERSION file is also required. Version increments can be managed with the `tag-release` script. 
+A `VERSION` file is also required. Version increments can be managed with the `tag-release` script. The `VERSION` file is only required when pushing secrets to 1Password scripts because the title of the entry in 1Password will include the version in it. It is not used for anything else. 
 
-You will also need a custom recipe, Dockerbuild file, and at least one Docker Compose file for each project. Example files are available at https://github.com/hut6/2020-docker-prod-boilerplate
+You will also need a custom deployer recipe, Dockerbuild file, and at least one Docker Compose file for each project. Example files are available at https://github.com/hut6/2020-docker-prod-boilerplate
 
 ## Building
 
