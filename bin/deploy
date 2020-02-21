@@ -19,4 +19,4 @@ IMG_NAME="hut6/$(basename -s .git $REPO):$1"
 
 echo $IMG_NAME;
 
-php bin/dep deploy $2 --ansi --revision=$IMG_NAME
+php bin/dep deploy $2 --ansi --revision="$IMG_NAME"
