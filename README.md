@@ -10,7 +10,7 @@ composer req --dev hut6/tag-release
 composer req --dev deployer/dist
 ```
 
-You will need to create a `/hosts.yml` inventory file (as per Deployer https://deployer.org/docs/hosts.html) and list all the hosts used for deployments.
+You will need to create a `deploy/deployer-hosts.yml` inventory file (as per Deployer https://deployer.org/docs/hosts.html) and list all the hosts used for deployments.
 
 A `VERSION` file is also required. Version increments can be managed with the `tag-release` script. The `VERSION` file is only required when pushing secrets to 1Password scripts because the title of the entry in 1Password will include the version in it. It is not used for anything else. 
 
@@ -46,7 +46,7 @@ For each host, specify the Docker Compose file like this: `compose_file: product
 bin/deploy branch_name production
 ```
 
-First argument is the tag (as per build and push process) and second argument the host, as per the hosts.yml file. This will deploy `hut6/docker-cli-utils:branch_name` on the `production` host.
+First argument is the tag (as per build and push process) and second argument the host, as per the `deploy/deployer-hosts.yml` file. This will deploy `hut6/docker-cli-utils:branch_name` on the `production` host.
 
 The image needs to exist on DockerHub. 
 
@@ -60,7 +60,7 @@ Install it from https://support.1password.com/command-line/
 
 You'll need to create a `/secrets` directory which will contain a `environment.env` file for each of your deployment environments, eg `production.env`, or `staging.env`
 
-Use the `/hosts.yml` inventory file to specify which entry in 1Password should be used for each hosts, using the `secrets_uuid` key.
+Use the `deploy/deployer-hosts.yml` inventory file to specify which entry in 1Password should be used for each hosts, using the `secrets_uuid` key.
 
 #### Pushing to 1Password
 
@@ -70,7 +70,7 @@ To push your file from the secrets directory to 1Password, run the following com
 bin/secrets push production
 ```
 
-Replace production with the right host key, as per your hosts.yml file. 
+Replace production with the right host key, as per your `deploy/deployer-hosts.yml` file. 
 
 The first time you run this command, it will ask you which vault needs to be used. 
 
@@ -78,7 +78,7 @@ The same command can be used to update the entry in 1password after you make cha
 
 #### Pulling from 1Password
 
-This will pull the secrets file from 1password, using the UUID specified in hosts.yml, and add it to the secrets directory. 
+This will pull the secrets file from 1password, using the UUID specified in `deploy/deployer-hosts.yml`, and add it to the secrets directory. 
 
 ```
 bin/secrets pull production 
