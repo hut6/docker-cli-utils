@@ -16,6 +16,6 @@ fi
 
 REPO=$(git config --get remote.origin.url)
 IMG_NAME="hut6/$(basename -s .git $REPO):$1"
-STACK_NAME="$(basename -s .git $REPO)-$1-$2"
+STACK_NAME="$(basename -s .git $REPO)-$2"
 
 php bin/dep deploy $2 --ansi --revision="$IMG_NAME" --tag="$STACK_NAME"
