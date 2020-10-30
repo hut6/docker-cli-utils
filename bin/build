@@ -18,8 +18,8 @@ SSH_KEY=$(cat ~/.ssh/id_rsa);
 
 STAGE=${2:-production}
 
-docker build -t $IMG_NAME -f deploy/.build/Dockerfile --build-arg REVISION=$REVISION --build-arg GIT_REMOTE=$REPO --build-arg SSH_KEY="$SSH_KEY" --target=$STAGE ./deploy
+DOCKER_BUILDKIT=1 docker build -t $IMG_NAME -f deploy/.build/Dockerfile --build-arg REVISION=$REVISION --build-arg GIT_REMOTE=$REPO --build-arg SSH_KEY="$SSH_KEY" --target=$STAGE ./deploy
 ./bin/push $1
 
-docker build -t $IMG_NAME-cli -f deploy/.build/Dockerfile --build-arg REVISION=$REVISION --build-arg GIT_REMOTE=$REPO --build-arg SSH_KEY="$SSH_KEY" --target=$STAGE-cli ./deploy
+DOCKER_BUILDKIT=1 docker build -t $IMG_NAME-cli -f deploy/.build/Dockerfile --build-arg REVISION=$REVISION --build-arg GIT_REMOTE=$REPO --build-arg SSH_KEY="$SSH_KEY" --target=$STAGE-cli ./deploy
 ./bin/push $1-cli
