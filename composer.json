@@ -22,7 +22,8 @@
     "bin/secrets",
     "bin/build",
     "bin/push",
-    "bin/deploy"
+    "bin/deploy",
+    "bin/op"
   ],
   "require-dev": {
     "symfony/var-dumper": ">4.0",
