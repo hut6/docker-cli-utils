@@ -18,13 +18,6 @@ SSH_KEY=$(cat ~/.ssh/id_rsa);
 
 STAGE=${2:-production}
 
-#for github actions
-if [ $# -eq 2 ]
-  then
-    SSH_KEY=$SECRETS_SSH_KEY
-fi
-
-
 DOCKER_BUILDKIT=1 docker build -t $IMG_NAME -f deploy/.build/Dockerfile --build-arg REVISION=$REVISION --build-arg GIT_REMOTE=$REPO --build-arg SSH_KEY="$SSH_KEY" --target=$STAGE ./deploy
 ./bin/push $1
 
