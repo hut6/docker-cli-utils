@@ -27,7 +27,7 @@ jobs:
             **Security** - Injection vulnerabilities, hardcoded secrets, auth issues, unsafe data handling
             **Best Practices** - Naming, style, test coverage, performance, API compatibility
             Be constructive and specific. Suggest fixes where possible. Skip nitpicks.
-          claude_args: "--model claude-sonnet-4-5-20250929 --max-turns 10"
+          claude_args: "--model claude-sonnet-4-5-20250929 --max-turns 20"
 
   interactive:
     if: |
@@ -38,7 +38,7 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          claude_args: "--model claude-sonnet-4-5-20250929 --max-turns 10"
+          claude_args: "--model claude-sonnet-4-5-20250929 --max-turns 20"
 name: Claude PR Review
 
 on:
@@ -66,18 +66,3 @@ jobs:
             Review this pull request thoroughly. Focus on:
             **Code Quality** - Bugs, logic errors, edge cases, readability, DRY, error handling
             **Security** - Injection vulnerabilities, hardcoded secrets, auth issues, unsafe data handling
-            **Best Practices** - Naming, style, test coverage, performance, API compatibility
-            Be constructive and specific. Suggest fixes where possible. Skip nitpicks.
-          claude_args: "--model claude-sonnet-4-5-20250929 --max-turns 10"
-
-  interactive:
-    if: |
-      github.event_name == 'issue_comment' ||
-      github.event_name == 'pull_request_review_comment'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          claude_args: "--model claude-sonnet-4-5-20250929 --max-turns 10"
-
