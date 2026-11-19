@@ -3,20 +3,24 @@ name: Claude PR Review
 on:
   pull_request:
     types: [opened, synchronize]
-  issue_comment:
+  issue_comment: # zizmor: ignore[dangerous-triggers] interactive job gated to org OWNER/MEMBER (H6PB-1915)
     types: [created]
   pull_request_review_comment:
     types: [created]
 
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
+# Least-privilege: each job takes only what it needs; no id-token
+# (claude-code-action authenticates with ANTHROPIC_API_KEY, not OIDC).
+# H6PB-1915 / H6PB-1879 §4.
+permissions: {}
 
 jobs:
   auto-review:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - uses: anthropics/claude-code-action@6070f08d2b4766348e0acded463606a7b176417b # v1
         with:
@@ -30,39 +34,20 @@ jobs:
           claude_args: "--model claude-sonnet-5 --max-turns 50"
 
   interactive:
-    if: |
-      github.event_name == 'issue_comment' ||
-      github.event_name == 'pull_request_review_comment'
+    # Gate to org OWNER/MEMBER: this job acts on comment text, so an untrusted
+    # commenter could otherwise drive Claude with a prompt they control (H6PB-1915).
+    if: >-
+      (github.event_name == 'issue_comment' ||
+       github.event_name == 'pull_request_review_comment')
+      && (github.event.comment.author_association == 'OWNER' ||
+          github.event.comment.author_association == 'MEMBER')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - uses: anthropics/claude-code-action@6070f08d2b4766348e0acded463606a7b176417b # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_args: "--model claude-sonnet-5 --max-turns 50"
-name: Claude PR Review
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-  issue_comment:
-    types: [created]
-  pull_request_review_comment:
-    types: [created]
-
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-
-jobs:
-  auto-review:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: anthropics/claude-code-action@6070f08d2b4766348e0acded463606a7b176417b # v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: |
-            Review this pull request thoroughly. Focus on:
-            **Code Quality** - Bugs, logic errors, edge cases, readability, DRY, error handling
-            **Security** - Injection vulnerabilities, hardcoded secrets, auth issues, unsafe data handling
